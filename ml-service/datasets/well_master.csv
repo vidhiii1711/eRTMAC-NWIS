@@ -1,0 +1,16 @@
+Well_ID,Well_Name,Field,Block,Latitude,Longitude,Well_Type,Spud_Date,Completion_Date,Total_Depth,Status
+W001,Alpha-01,Field_Alpha,Block_1,26.11218,82.6655,Exploratory,02-04-2024,30-05-2024,3050,Completed
+W002,Alpha-02,Field_Alpha,Block_1,25.95921,82.1092,Exploratory,10-02-2023,20-04-2023,3120,Completed
+W003,Alpha-03,Field_Alpha,Block_2,26.27078,82.49565,Development,17-01-2023,31-03-2023,2980,Completed
+W004,Beta-04,Field_Beta,Block_3,26.43271,82.14864,Development,27-04-2023,08-06-2023,3200,Completed
+W005,Beta-05,Field_Beta,Block_3,26.06297,82.36733,Development,29-09-2023,14-11-2023,3080,Completed
+W006,Beta-06,Field_Beta,Block_4,26.2783,82.09765,Development,05-07-2023,23-08-2023,2950,Completed
+W007,Gamma-07,Field_Gamma,Block_5,26.16925,82.54962,Exploratory,08-05-2023,02-07-2023,3300,Completed
+W008,Gamma-08,Field_Gamma,Block_5,26.26469,82.03252,Exploratory,16-01-2024,26-02-2024,3150,Completed
+W009,Alpha-09,Field_Alpha,Block_2,25.89554,82.66422,Appraisal,25-08-2024,31-10-2024,3020,Completed
+W010,Beta-10,Field_Beta,Block_4,26.06323,82.06837,Exploratory,04-03-2024,25-04-2024,3180,Completed
+W011,Gamma-11,Field_Gamma,Block_6,25.93543,82.34662,Exploratory,26-01-2023,07-04-2023,2900,Completed
+W012,Alpha-12,Field_Alpha,Block_1,26.03115,82.46377,Exploratory,17-07-2023,10-09-2023,3250,Completed
+W013,Beta-13,Field_Beta,Block_3,26.2327,82.1294,Development,28-08-2024,02-11-2024,3060,Completed
+W014,Gamma-14,Field_Gamma,Block_6,26.50765,82.62638,Development,10-01-2024,21-03-2024,3220,Drilling
+W015,Alpha-15,Field_Alpha,Block_2,25.91194,82.13719,Exploratory,02-02-2023,22-03-2023,3000,Drilling
