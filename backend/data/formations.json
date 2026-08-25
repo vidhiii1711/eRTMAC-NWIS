@@ -1,0 +1,57 @@
+[
+  {
+    "formation": "Alluvium_Top",
+    "depth_from": "0",
+    "depth_to": "400",
+    "lithology": "Sand_Clay",
+    "rock_type": "Unconsolidated",
+    "porosity_pct": "32.0",
+    "permeability_md": "850.0",
+    "reservoir_pressure_psi": "200",
+    "temperature_c": "28"
+  },
+  {
+    "formation": "Shale_A",
+    "depth_from": "400",
+    "depth_to": "1600",
+    "lithology": "Shale",
+    "rock_type": "Sedimentary",
+    "porosity_pct": "18.0",
+    "permeability_md": "5.0",
+    "reservoir_pressure_psi": "1800",
+    "temperature_c": "45"
+  },
+  {
+    "formation": "Limestone_B",
+    "depth_from": "1600",
+    "depth_to": "2400",
+    "lithology": "Limestone",
+    "rock_type": "Carbonate",
+    "porosity_pct": "12.0",
+    "permeability_md": "40.0",
+    "reservoir_pressure_psi": "2600",
+    "temperature_c": "58"
+  },
+  {
+    "formation": "Shale_B",
+    "depth_from": "2400",
+    "depth_to": "3000",
+    "lithology": "Shale",
+    "rock_type": "Sedimentary",
+    "porosity_pct": "9.0",
+    "permeability_md": "2.0",
+    "reservoir_pressure_psi": "3400",
+    "temperature_c": "72"
+  },
+  {
+    "formation": "Sandstone_C",
+    "depth_from": "3000",
+    "depth_to": "3800",
+    "lithology": "Sandstone",
+    "rock_type": "Reservoir",
+    "porosity_pct": "22.0",
+    "permeability_md": "300.0",
+    "reservoir_pressure_psi": "4300",
+    "temperature_c": "86"
+  }
+]

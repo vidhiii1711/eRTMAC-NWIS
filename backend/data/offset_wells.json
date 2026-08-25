@@ -1,0 +1,452 @@
+[
+  {
+    "Well_ID": "W001",
+    "Offset_Well_ID": "W007",
+    "Rank": "1",
+    "Distance_km": "13.194"
+  },
+  {
+    "Well_ID": "W001",
+    "Offset_Well_ID": "W012",
+    "Rank": "2",
+    "Distance_km": "22.072"
+  },
+  {
+    "Well_ID": "W001",
+    "Offset_Well_ID": "W009",
+    "Rank": "3",
+    "Distance_km": "24.09"
+  },
+  {
+    "Well_ID": "W001",
+    "Offset_Well_ID": "W003",
+    "Rank": "4",
+    "Distance_km": "24.459"
+  },
+  {
+    "Well_ID": "W001",
+    "Offset_Well_ID": "W005",
+    "Rank": "5",
+    "Distance_km": "30.276"
+  },
+  {
+    "Well_ID": "W002",
+    "Offset_Well_ID": "W015",
+    "Rank": "1",
+    "Distance_km": "5.955"
+  },
+  {
+    "Well_ID": "W002",
+    "Offset_Well_ID": "W010",
+    "Rank": "2",
+    "Distance_km": "12.265"
+  },
+  {
+    "Well_ID": "W002",
+    "Offset_Well_ID": "W011",
+    "Rank": "3",
+    "Distance_km": "23.886"
+  },
+  {
+    "Well_ID": "W002",
+    "Offset_Well_ID": "W005",
+    "Rank": "4",
+    "Distance_km": "28.258"
+  },
+  {
+    "Well_ID": "W002",
+    "Offset_Well_ID": "W013",
+    "Rank": "5",
+    "Distance_km": "30.478"
+  },
+  {
+    "Well_ID": "W003",
+    "Offset_Well_ID": "W007",
+    "Rank": "1",
+    "Distance_km": "12.508"
+  },
+  {
+    "Well_ID": "W003",
+    "Offset_Well_ID": "W001",
+    "Rank": "2",
+    "Distance_km": "24.459"
+  },
+  {
+    "Well_ID": "W003",
+    "Offset_Well_ID": "W005",
+    "Rank": "3",
+    "Distance_km": "26.419"
+  },
+  {
+    "Well_ID": "W003",
+    "Offset_Well_ID": "W012",
+    "Rank": "4",
+    "Distance_km": "26.835"
+  },
+  {
+    "Well_ID": "W003",
+    "Offset_Well_ID": "W014",
+    "Rank": "5",
+    "Distance_km": "29.382"
+  },
+  {
+    "Well_ID": "W004",
+    "Offset_Well_ID": "W006",
+    "Rank": "1",
+    "Distance_km": "17.905"
+  },
+  {
+    "Well_ID": "W004",
+    "Offset_Well_ID": "W008",
+    "Rank": "2",
+    "Distance_km": "21.976"
+  },
+  {
+    "Well_ID": "W004",
+    "Offset_Well_ID": "W013",
+    "Rank": "3",
+    "Distance_km": "22.323"
+  },
+  {
+    "Well_ID": "W004",
+    "Offset_Well_ID": "W003",
+    "Rank": "4",
+    "Distance_km": "38.984"
+  },
+  {
+    "Well_ID": "W004",
+    "Offset_Well_ID": "W010",
+    "Rank": "5",
+    "Distance_km": "41.857"
+  },
+  {
+    "Well_ID": "W005",
+    "Offset_Well_ID": "W012",
+    "Rank": "1",
+    "Distance_km": "10.264"
+  },
+  {
+    "Well_ID": "W005",
+    "Offset_Well_ID": "W011",
+    "Rank": "2",
+    "Distance_km": "14.332"
+  },
+  {
+    "Well_ID": "W005",
+    "Offset_Well_ID": "W007",
+    "Rank": "3",
+    "Distance_km": "21.7"
+  },
+  {
+    "Well_ID": "W005",
+    "Offset_Well_ID": "W003",
+    "Rank": "4",
+    "Distance_km": "26.419"
+  },
+  {
+    "Well_ID": "W005",
+    "Offset_Well_ID": "W002",
+    "Rank": "5",
+    "Distance_km": "28.258"
+  },
+  {
+    "Well_ID": "W006",
+    "Offset_Well_ID": "W013",
+    "Rank": "1",
+    "Distance_km": "5.978"
+  },
+  {
+    "Well_ID": "W006",
+    "Offset_Well_ID": "W008",
+    "Rank": "2",
+    "Distance_km": "6.668"
+  },
+  {
+    "Well_ID": "W006",
+    "Offset_Well_ID": "W004",
+    "Rank": "3",
+    "Distance_km": "17.905"
+  },
+  {
+    "Well_ID": "W006",
+    "Offset_Well_ID": "W010",
+    "Rank": "4",
+    "Distance_km": "24.093"
+  },
+  {
+    "Well_ID": "W006",
+    "Offset_Well_ID": "W002",
+    "Rank": "5",
+    "Distance_km": "35.5"
+  },
+  {
+    "Well_ID": "W007",
+    "Offset_Well_ID": "W003",
+    "Rank": "1",
+    "Distance_km": "12.508"
+  },
+  {
+    "Well_ID": "W007",
+    "Offset_Well_ID": "W001",
+    "Rank": "2",
+    "Distance_km": "13.194"
+  },
+  {
+    "Well_ID": "W007",
+    "Offset_Well_ID": "W012",
+    "Rank": "3",
+    "Distance_km": "17.587"
+  },
+  {
+    "Well_ID": "W007",
+    "Offset_Well_ID": "W005",
+    "Rank": "4",
+    "Distance_km": "21.7"
+  },
+  {
+    "Well_ID": "W007",
+    "Offset_Well_ID": "W009",
+    "Rank": "5",
+    "Distance_km": "32.518"
+  },
+  {
+    "Well_ID": "W008",
+    "Offset_Well_ID": "W006",
+    "Rank": "1",
+    "Distance_km": "6.668"
+  },
+  {
+    "Well_ID": "W008",
+    "Offset_Well_ID": "W013",
+    "Rank": "2",
+    "Distance_km": "10.296"
+  },
+  {
+    "Well_ID": "W008",
+    "Offset_Well_ID": "W004",
+    "Rank": "3",
+    "Distance_km": "21.976"
+  },
+  {
+    "Well_ID": "W008",
+    "Offset_Well_ID": "W010",
+    "Rank": "4",
+    "Distance_km": "22.685"
+  },
+  {
+    "Well_ID": "W008",
+    "Offset_Well_ID": "W002",
+    "Rank": "5",
+    "Distance_km": "34.82"
+  },
+  {
+    "Well_ID": "W009",
+    "Offset_Well_ID": "W001",
+    "Rank": "1",
+    "Distance_km": "24.09"
+  },
+  {
+    "Well_ID": "W009",
+    "Offset_Well_ID": "W012",
+    "Rank": "2",
+    "Distance_km": "25.079"
+  },
+  {
+    "Well_ID": "W009",
+    "Offset_Well_ID": "W011",
+    "Rank": "3",
+    "Distance_km": "32.072"
+  },
+  {
+    "Well_ID": "W009",
+    "Offset_Well_ID": "W007",
+    "Rank": "4",
+    "Distance_km": "32.518"
+  },
+  {
+    "Well_ID": "W009",
+    "Offset_Well_ID": "W005",
+    "Rank": "5",
+    "Distance_km": "35.033"
+  },
+  {
+    "Well_ID": "W010",
+    "Offset_Well_ID": "W002",
+    "Rank": "1",
+    "Distance_km": "12.265"
+  },
+  {
+    "Well_ID": "W010",
+    "Offset_Well_ID": "W015",
+    "Rank": "2",
+    "Distance_km": "18.175"
+  },
+  {
+    "Well_ID": "W010",
+    "Offset_Well_ID": "W013",
+    "Rank": "3",
+    "Distance_km": "19.804"
+  },
+  {
+    "Well_ID": "W010",
+    "Offset_Well_ID": "W008",
+    "Rank": "4",
+    "Distance_km": "22.685"
+  },
+  {
+    "Well_ID": "W010",
+    "Offset_Well_ID": "W006",
+    "Rank": "5",
+    "Distance_km": "24.093"
+  },
+  {
+    "Well_ID": "W011",
+    "Offset_Well_ID": "W005",
+    "Rank": "1",
+    "Distance_km": "14.332"
+  },
+  {
+    "Well_ID": "W011",
+    "Offset_Well_ID": "W012",
+    "Rank": "2",
+    "Distance_km": "15.824"
+  },
+  {
+    "Well_ID": "W011",
+    "Offset_Well_ID": "W015",
+    "Rank": "3",
+    "Distance_km": "21.107"
+  },
+  {
+    "Well_ID": "W011",
+    "Offset_Well_ID": "W002",
+    "Rank": "4",
+    "Distance_km": "23.886"
+  },
+  {
+    "Well_ID": "W011",
+    "Offset_Well_ID": "W010",
+    "Rank": "5",
+    "Distance_km": "31.229"
+  },
+  {
+    "Well_ID": "W012",
+    "Offset_Well_ID": "W005",
+    "Rank": "1",
+    "Distance_km": "10.264"
+  },
+  {
+    "Well_ID": "W012",
+    "Offset_Well_ID": "W011",
+    "Rank": "2",
+    "Distance_km": "15.824"
+  },
+  {
+    "Well_ID": "W012",
+    "Offset_Well_ID": "W007",
+    "Rank": "3",
+    "Distance_km": "17.587"
+  },
+  {
+    "Well_ID": "W012",
+    "Offset_Well_ID": "W001",
+    "Rank": "4",
+    "Distance_km": "22.072"
+  },
+  {
+    "Well_ID": "W012",
+    "Offset_Well_ID": "W009",
+    "Rank": "5",
+    "Distance_km": "25.079"
+  },
+  {
+    "Well_ID": "W013",
+    "Offset_Well_ID": "W006",
+    "Rank": "1",
+    "Distance_km": "5.978"
+  },
+  {
+    "Well_ID": "W013",
+    "Offset_Well_ID": "W008",
+    "Rank": "2",
+    "Distance_km": "10.296"
+  },
+  {
+    "Well_ID": "W013",
+    "Offset_Well_ID": "W010",
+    "Rank": "3",
+    "Distance_km": "19.804"
+  },
+  {
+    "Well_ID": "W013",
+    "Offset_Well_ID": "W004",
+    "Rank": "4",
+    "Distance_km": "22.323"
+  },
+  {
+    "Well_ID": "W013",
+    "Offset_Well_ID": "W005",
+    "Rank": "5",
+    "Distance_km": "30.335"
+  },
+  {
+    "Well_ID": "W014",
+    "Offset_Well_ID": "W003",
+    "Rank": "1",
+    "Distance_km": "29.382"
+  },
+  {
+    "Well_ID": "W014",
+    "Offset_Well_ID": "W007",
+    "Rank": "2",
+    "Distance_km": "38.398"
+  },
+  {
+    "Well_ID": "W014",
+    "Offset_Well_ID": "W001",
+    "Rank": "3",
+    "Distance_km": "44.147"
+  },
+  {
+    "Well_ID": "W014",
+    "Offset_Well_ID": "W004",
+    "Rank": "4",
+    "Distance_km": "48.278"
+  },
+  {
+    "Well_ID": "W014",
+    "Offset_Well_ID": "W012",
+    "Rank": "5",
+    "Distance_km": "55.41"
+  },
+  {
+    "Well_ID": "W015",
+    "Offset_Well_ID": "W002",
+    "Rank": "1",
+    "Distance_km": "5.955"
+  },
+  {
+    "Well_ID": "W015",
+    "Offset_Well_ID": "W010",
+    "Rank": "2",
+    "Distance_km": "18.175"
+  },
+  {
+    "Well_ID": "W015",
+    "Offset_Well_ID": "W011",
+    "Rank": "3",
+    "Distance_km": "21.107"
+  },
+  {
+    "Well_ID": "W015",
+    "Offset_Well_ID": "W005",
+    "Rank": "4",
+    "Distance_km": "28.481"
+  },
+  {
+    "Well_ID": "W015",
+    "Offset_Well_ID": "W012",
+    "Rank": "5",
+    "Distance_km": "35.235"
+  }
+]
