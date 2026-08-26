@@ -1,15 +1,26 @@
 const mongoose = require('mongoose');
 
-const wellSchema = new mongoose.Schema({
-  name: String,               // "OIL-001"
-  location: {
-    type: { type: String, enum: ['Point'], default: 'Point' },
-    coordinates: [Number]     // [longitude, latitude] — GeoJSON order
+const wellSchema = new mongoose.Schema(
+  {
+    wellId: { type: String, required: true, unique: true },       // "W001"
+    wellName: String,                                              // "Alpha-01"
+    field: String,                                                 // "Field_Alpha"
+    block: String,                                                 // "Block_1"
+    latitude: Number,
+    longitude: Number,
+    location: {
+      type: { type: String, enum: ['Point'], default: 'Point' },
+      coordinates: [Number], // [longitude, latitude] — GeoJSON order, REQUIRED for geo queries
+    },
+    wellType: String,        // Exploratory / Development / Appraisal
+    spudDate: String,
+    completionDate: String,
+    totalDepth: Number,
+    status: String,          // Completed / Drilling
   },
-  totalDepth: Number,
-  formation: String,
-  status: String               // e.g. "active", "completed"
-});
+  { timestamps: true }
+);
 
-wellSchema.index({ location: '2dsphere' }); // enables geospatial queries
+wellSchema.index({ location: '2dsphere' }); // enables radius/geo queries
+
 module.exports = mongoose.model('Well', wellSchema);

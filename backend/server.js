@@ -5,10 +5,18 @@ const cors = require('cors');
 
 const Well = require('./models/Well');
 const Event = require('./models/Event');
+const authRoutes = require('./routes/authRoutes');
+const wellRoutes = require('./routes/wellRoutes');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log('Body received:', req.body);
+  next();
+});
+app.use('/api/auth', authRoutes);
+app.use('/api/wells', wellRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
