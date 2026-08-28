@@ -119,3 +119,96 @@ exports.getSimilarWells = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+// @route POST /api/wells
+// Create a new well
+exports.createWell = async (req, res) => {
+  try {
+    const {
+      wellId,
+      wellName,
+      field,
+      block,
+      latitude,
+      longitude,
+      wellType,
+      spudDate,
+      completionDate,
+      totalDepth,
+      status,
+    } = req.body;
+
+    if (!wellId || !wellName || !latitude || !longitude) {
+      return res.status(400).json({
+        message: 'wellId, wellName, latitude and longitude are required',
+      });
+    }
+
+    const existingWell = await Well.findOne({ wellId });
+    if (existingWell) {
+      return res.status(400).json({ message: 'Well ID already exists' });
+    }
+
+    const newWell = await Well.create({
+      wellId,
+      wellName,
+      field,
+      block,
+      location: {
+        type: 'Point',
+        coordinates: [parseFloat(longitude), parseFloat(latitude)],
+      },
+      wellType,
+      spudDate,
+      completionDate,
+      totalDepth: parseFloat(totalDepth),
+      status,
+    });
+
+    res.status(201).json(newWell);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @route GET /api/wells/search?q=W00
+// Search wells by partial Well ID match (for search/select dropdown)
+exports.searchWells = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(400).json({ message: 'Search query "q" is required' });
+    }
+
+    // "i" makes it case-insensitive, so "w00" also matches "W001"
+    const matchingWells = await Well.find({
+      wellId: { $regex: q, $options: 'i' },
+    }).select('wellId wellName field block status'); // only send lightweight fields for a dropdown
+
+    res.status(200).json({
+      count: matchingWells.length,
+      wells: matchingWells,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @route GET /api/wells/:wellId
+// Get full details of one exact well (after user selects it)
+exports.getWellByWellId = async (req, res) => {
+  try {
+    const { wellId } = req.params;
+
+    const well = await Well.findOne({ wellId });
+
+    if (!well) {
+      return res.status(404).json({ message: 'Well not found' });
+    }
+
+    res.status(200).json(well);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
