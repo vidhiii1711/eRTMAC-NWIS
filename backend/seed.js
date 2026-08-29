@@ -6,6 +6,8 @@ const wellsData = require('./data/well_master.json'); // your actual well file
 const eventsData = require('./data/event_log.json');
 const Formation = require('./models/Formation');
 const formationsData = require('./data/formations.json');
+const DrillingData = require('./models/DrillingData');
+const drillingData = require('./data/drilling_timeseries_balanced.json');
 
 
 // Convert raw JSON (Latitude/Longitude as strings) into schema-ready format
@@ -49,13 +51,16 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
   await Well.deleteMany({});
   await Event.deleteMany({});
   await Formation.deleteMany({});
+  await DrillingData.deleteMany({});
 
   const formattedWells = formatWells(wellsData);
   const formattedFormations = formatFormations(formationsData);
   await Well.insertMany(formattedWells);
   await Event.insertMany(eventsData);
   await Formation.insertMany(formattedFormations);
+  await DrillingData.insertMany(drillingData);
 
   console.log(`Seed complete: ${formattedWells.length} wells inserted`);
   process.exit();
+  console.log(`${drillingData.length} drilling records seeded`);
 });

@@ -86,20 +86,29 @@ export function calculateDistanceKm(lat1, lng1, lat2, lng2) {
 }
 
 // ---------- RISK PREDICTION (Mud Loss / Stuck Pipe / Overpressure) ----------
-// Backend endpoint is still a stub — using rule-based mock logic for now.
-// Swap USE_REAL_RISK_ENDPOINT to true once she confirms /predict-risk is real.
-const USE_REAL_RISK_ENDPOINT = false;
+// // Backend endpoint is still a stub — using rule-based mock logic for now.
+// // Swap USE_REAL_RISK_ENDPOINT to true once she confirms /predict-risk is real.
+// const USE_REAL_RISK_ENDPOINT = false;
 
-export async function getRiskPrediction(depth, formation) {
-  if (USE_REAL_RISK_ENDPOINT) {
-    const res = await http.post("/predict-risk", { depth, formation });
-    return res.data;
-  }
-  // Rule-based mock — same honest logic your build guide used for the ML service.
-  const mudLoss = depth % 500 < 150 ? 78 : 25;
-  const stuckPipe = depth % 700 < 200 ? 55 : 18;
-  const overpressure = depth > 3000 ? 62 : 15;
-  return { mud_loss_risk: mudLoss, stuck_pipe_risk: stuckPipe, overpressure_risk: overpressure };
+// export async function getRiskPrediction(depth, formation) {
+//   if (USE_REAL_RISK_ENDPOINT) {
+//     const res = await http.post("/predict-risk", { depth, formation });
+//     return res.data;
+//   }
+//   // Rule-based mock — same honest logic your build guide used for the ML service.
+//   const mudLoss = depth % 500 < 150 ? 78 : 25;
+//   const stuckPipe = depth % 700 < 200 ? 55 : 18;
+//   const overpressure = depth > 3000 ? 62 : 15;
+//   return { mud_loss_risk: mudLoss, stuck_pipe_risk: stuckPipe, overpressure_risk: overpressure };
+// }
+export async function getRiskPrediction(wellId) {
+  const res = await http.get(`/api/risk/${wellId}`);
+  return res.data; // { wellId, timestamp, depth, prediction: { Mud_Loss_Label: {...}, Stuck_Pipe_Label: {...}, Kick_Label: {...} } }
+}
+
+export async function getRiskExplanation(wellId) {
+  const res = await http.get(`/api/risk/${wellId}/explain`);
+  return res.data; // { wellId, timestamp, depth, explanation: { Mud_Loss_Label: [...5], Stuck_Pipe_Label: [...], Kick_Label: [...] } }
 }
 
 // ---------- HISTORICAL DOCUMENT SEARCH (Gemini) ----------
