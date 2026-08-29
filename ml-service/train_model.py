@@ -173,3 +173,8 @@ joblib.dump(
 )
 
 print("SHAP explainers saved successfully!")
+
+# only for testing purpose
+from sklearn.model_selection import cross_val_score
+cv_scores = cross_val_score(model, X_train, y_train['Mud_Loss_Label'], cv=5, scoring='accuracy')
+print(f"Cross-val accuracy: {cv_scores.mean():.4f} (+/- {cv_scores.std():.4f})")
