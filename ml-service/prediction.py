@@ -97,12 +97,10 @@ def explain_prediction(input_data):
             "Feature_Value": feature_values
         })
         
-        explanation_df["Absolute_SHAP"] = (
-            explanation_df["SHAP_Value"].abs()
-        )
         explanation_df = explanation_df.sort_values(
-            by="Absolute_SHAP",
-            ascending=False
+        by="SHAP_Value",
+        key=lambda x: x.abs(),
+        ascending=False
         )
         
         top_features = explanation_df.head(5)
