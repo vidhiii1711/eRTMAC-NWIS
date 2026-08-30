@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getRiskPrediction, getSimilarWells } from "../api";
 import { useWell } from "../context/WellContext";
+import RiskCard from "../components/RiskCard";
 
 function riskLevel(pct) {
   if (pct >= 60) return "high";
@@ -22,10 +23,10 @@ export default function Dashboard() {
     if (!currentWell) return;
     async function load() {
       setLoading(true);
-      const riskData = await getRiskPrediction(currentWell.totalDepth, currentWell.formation);
+      try {
+      const riskData = await getRiskPrediction(currentWell.wellId);
       setRisk(riskData);
 
-      try {
         const similarData = await getSimilarWells(currentWell.wellId, 5);
         const closeMatches = similarData.similarWells.filter((w) => w.similarityScore >= 60);
         setEarlyWarning(
@@ -33,11 +34,12 @@ export default function Dashboard() {
             ? { triggered: true, count: closeMatches.length, topMatch: closeMatches[0] }
             : { triggered: false }
         );
-      } catch {
+      } catch (error) {
+        console.error("Dashboard API error:", error);
         setEarlyWarning({ triggered: false });
-      }
+      }finally {
       setLoading(false);
-    }
+    }}
     load();
   }, [currentWell]);
 
@@ -45,10 +47,19 @@ export default function Dashboard() {
   if (loading || !risk) return <div className="loading">Loading dashboard...</div>;
 
   const risks = [
-    { label: "Mud Loss Risk", value: risk.mud_loss_risk },
-    { label: "Stuck Pipe Risk", value: risk.stuck_pipe_risk },
-    { label: "Overpressure Risk", value: risk.overpressure_risk },
-  ];
+  {
+    label: "Mud Loss Risk",
+    value: risk.prediction.Mud_Loss_Label.probability,
+  },
+  {
+    label: "Stuck Pipe Risk",
+    value: risk.prediction.Stuck_Pipe_Label.probability,
+  },
+  {
+    label: "Kick Risk",
+    value: risk.prediction.Kick_Label.probability,
+  },
+];
 
   const quickActions = [
     { label: "📍 Nearby Wells", desc: "Map + radius search for offset wells", to: `/well/${wellId}/nearby-wells` },
@@ -73,17 +84,38 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid-3">
-        {risks.map((r) => {
-          const level = riskLevel(r.value);
-          return (
-            <div key={r.label} className={`risk-card ${level}`}>
-              <div className="risk-pct">{r.value}%</div>
-              <div className="risk-label">{r.label} — {level}</div>
-            </div>
-          );
-        })}
-      </div>
+       {/* RISK CARDS — now real data + Why? explanation */}
+      {risk ? (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 16,
+            marginTop: 16,
+          }}
+        >
+          <RiskCard
+            title="Mud Loss Risk"
+            riskKey="Mud_Loss_Label"
+            riskData={risk.prediction.Mud_Loss_Label}
+            wellId={currentWell.wellId}
+          />
+          <RiskCard
+            title="Stuck Pipe Risk"
+            riskKey="Stuck_Pipe_Label"
+            riskData={risk.prediction.Stuck_Pipe_Label}
+            wellId={currentWell.wellId}
+          />
+          <RiskCard
+            title="Kick Risk"
+            riskKey="Kick_Label"
+            riskData={risk.prediction.Kick_Label}
+            wellId={currentWell.wellId}
+          />
+        </div>
+      ) : (
+        <p style={{ color: "#dc2626", marginTop: 16 }}>Could not load risk predictions for this well.</p>
+      )}
 
       <h3 style={{ marginTop: 20, marginBottom: 12, fontSize: 15 }}>Explore This Well</h3>
       <div className="grid-3">
