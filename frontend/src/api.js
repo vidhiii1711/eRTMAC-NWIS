@@ -115,17 +115,16 @@ export async function getRiskExplanation(wellId) {
 }
 
 // ---------- HISTORICAL DOCUMENT SEARCH (Gemini) ----------
-// Backend endpoint is still a stub — using mock answer for now.
-const USE_REAL_AI_ENDPOINT = false;
+// REAL endpoint — no more mock needed.
+export async function askHistoricalQuestion(question, wellIds = []) {
+  const res = await http.post("/api/risk/historical-search", { question, wellIds },{ timeout: 80000 });
+  return res.data; // { question, well_ids, answer }
+}
 
-export async function askHistoricalQuestion(question) {
-  if (USE_REAL_AI_ENDPOINT) {
-    const res = await http.post("/ai/query", { question });
-    return res.data;
-  }
-  return {
-    answer:
-      "Nearby wells recorded mud-loss events in this depth range. LCM treatment successfully controlled losses in similar cases.",
-    source: "Matched historical event record",
-  };
+// ---------- EARLY WARNING (real endpoint) ----------
+export async function getEarlyWarning(wellId, radiusKm = 20, lookahead = 100) {
+  const res = await http.get(`/api/early-warning/${wellId}`, {
+    params: { radius: radiusKm, lookahead },
+  });
+  return res.data; // { wellId, depth, nearbyWellsChecked, level, warnings, historical_events }
 }

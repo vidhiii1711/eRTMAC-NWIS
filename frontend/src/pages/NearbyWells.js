@@ -128,13 +128,6 @@ export default function NearbyWells() {
           ))}
         </div>
       </div>
-
-      {/* <div className="btn-row">
-        <button className="secondary" onClick={() => navigate(-1)}>Back</button>
-        <button className="primary" onClick={handleContinue}>Continue →</button> 
-      </div> */}          // continue and back 
-
-      {/* NEW: popup modal, same page, closes with the cross */}
       {selectedWell && (
         <div className="modal-overlay" onClick={() => setSelectedWell(null)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>

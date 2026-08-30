@@ -3,6 +3,9 @@ from pydantic import BaseModel
 import pandas as pd
 from prediction import predict_risk,explain_prediction
 from gemini_service import upload_documents, ask_historical_question
+from early_warning import generate_early_warning
+from historical_intelligence import find_upcoming_events
+
 
 app = FastAPI()
 
@@ -64,3 +67,36 @@ def historical_intelligence(data: HistoricalQuestion):
         "well_ids": data.well_ids,
         "answer": answer
     }
+
+class EarlyWarningRequest(BaseModel):
+    drilling_data: DrillingData
+    nearby_well_ids: list[str]
+    lookahead: float = 100
+
+@app.post("/early-warning")
+def early_warning(request: EarlyWarningRequest):
+    # Step 1: Get risk predictions using existing model
+    df = pd.DataFrame([request.drilling_data.dict()])
+    risk_result = predict_risk(df)
+
+    mud_loss_risk = risk_result["Mud_Loss_Label"]["probability"]
+    stuck_pipe_risk = risk_result["Stuck_Pipe_Label"]["probability"]
+    kick_risk = risk_result["Kick_Label"]["probability"]
+
+    # Step 2: Find historical events in nearby wells, ahead of current depth
+    historical_events = find_upcoming_events(
+        current_depth=request.drilling_data.Depth_MD,
+        nearby_well_ids=request.nearby_well_ids,
+        lookahead=request.lookahead,
+        formation=request.drilling_data.Formation
+    )
+
+    # Step 3: Combine into final warning
+    result = generate_early_warning(
+        mud_loss_risk=mud_loss_risk,
+        stuck_pipe_risk=stuck_pipe_risk,
+        kick_risk=kick_risk,
+        historical_events=historical_events
+    )
+
+    return result

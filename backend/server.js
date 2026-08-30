@@ -8,6 +8,7 @@ const Event = require('./models/Event');
 const authRoutes = require('./routes/authRoutes');
 const wellRoutes = require('./routes/wellRoutes');
 const riskRoutes = require('./routes/riskRoutes');
+const earlyWarningRoutes = require('./routes/earlyWarningRoutes');
 
 const app = express();
 app.use(cors());
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/wells', wellRoutes);
 app.use('/api/risk', riskRoutes);
+app.use('/api/early-warning', earlyWarningRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
