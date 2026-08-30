@@ -42,7 +42,10 @@ export async function loginEmployee(employeeId, password) {
   // res.data = { _id, employeeId, employeeName, token }
   return res.data;
 }
-
+  export async function registerEmployee(employeeId, employeeName, password) {
+  const res = await http.post("/api/auth/register", { employeeId, employeeName, password });
+  return res.data; // { _id, employeeId, employeeName, token }
+}
 // ---------- WELLS (real endpoints) ----------
 export async function searchWells(query) {
   const res = await http.get("/api/wells/search", { params: { q: query } });

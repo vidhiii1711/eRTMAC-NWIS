@@ -1,27 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginEmployee } from "../api";
+import { loginEmployee, registerEmployee } from "../api";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
+  const [mode, setMode] = useState("login"); // "login" or "register"
   const [employeeId, setEmployeeId] = useState("");
+  const [employeeName, setEmployeeName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  async function handleLogin(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      const data = await loginEmployee(employeeId, password);
-      login(data); // saves token + employee info, matches her /api/auth/login response
+      const data =
+        mode === "login"
+          ? await loginEmployee(employeeId, password)
+          : await registerEmployee(employeeId, employeeName, password);
+      login(data);
       navigate("/well-workspace");
     } catch (err) {
-      // Her backend returns { message: "Invalid employee ID or password" } on 401
-      setError(err.response?.data?.message || "Login failed. Check your Employee ID and password.");
+      setError(err.response?.data?.message || `${mode === "login" ? "Login" : "Registration"} failed.`);
     } finally {
       setLoading(false);
     }
@@ -29,12 +33,23 @@ export default function Login() {
 
   return (
     <div className="login-wrap">
-      <form className="login-box" onSubmit={handleLogin}>
+      <form className="login-box" onSubmit={handleSubmit}>
         <h1>NWIS</h1>
-        <p>National Well Intelligence System — Sign in to continue</p>
+        <p>
+          {mode === "login"
+            ? "National Well Intelligence System — Sign in to continue"
+            : "Create your engineer account"}
+        </p>
 
         <label>Employee ID</label>
         <input value={employeeId} onChange={(e) => setEmployeeId(e.target.value)} required />
+
+        {mode === "register" && (
+          <>
+            <label>Full Name</label>
+            <input value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} required />
+          </>
+        )}
 
         <label>Password</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
@@ -42,8 +57,21 @@ export default function Login() {
         {error && <p style={{ color: "#f87171", fontSize: 13, marginTop: 10 }}>{error}</p>}
 
         <button className="primary" style={{ width: "100%", marginTop: 24 }} type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Please wait..." : mode === "login" ? "Login" : "Sign Up"}
         </button>
+
+        <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "#94a3b8" }}>
+          {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+          <span
+            style={{ color: "#60a5fa", cursor: "pointer", fontWeight: 600 }}
+            onClick={() => {
+              setError("");
+              setMode(mode === "login" ? "register" : "login");
+            }}
+          >
+            {mode === "login" ? "Sign up" : "Login"}
+          </span>
+        </p>
       </form>
     </div>
   );

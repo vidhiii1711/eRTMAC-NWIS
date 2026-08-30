@@ -5,9 +5,11 @@ import { WellProvider } from "./context/WellContext";
 
 import Login from "./pages/Login";
 import WellWorkspace from "./pages/WellWorkspace";
+import CreateWell from "./pages/CreateWell";
 import NearbyWells from "./pages/NearbyWells";
 import Dashboard from "./pages/Dashboard";
 import SimilarWells from "./pages/SimilarWells";
+import DocumentSearch from "./pages/DocumentSearch";
 import Layout from "./components/Layout";
 
 function ProtectedRoute({ children }) {
@@ -22,11 +24,14 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/well-workspace" element={<ProtectedRoute><WellWorkspace /></ProtectedRoute>} />
-      <Route path="/well/:wellId/nearby-wells" element={<ProtectedRoute><NearbyWells /></ProtectedRoute>} />
+      <Route path="/create-well" element={<ProtectedRoute><CreateWell /></ProtectedRoute>} />
 
+      {/* All well-specific pages now live under one Layout with sidebar + top bar */}
       <Route path="/well/:wellId" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="nearby-wells" element={<NearbyWells />} />
         <Route path="similar-wells" element={<SimilarWells />} />
+        <Route path="document-search" element={<DocumentSearch />} />
       </Route>
     </Routes>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
-import { getNearbyWells, calculateDistanceKm } from "../api";
+import { getNearbyWells, calculateDistanceKm, getWellByWellId } from "../api";
 import { useWell } from "../context/WellContext";
 
 export default function NearbyWells() {
@@ -15,6 +15,10 @@ export default function NearbyWells() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // NEW: popup modal state
+  const [selectedWell, setSelectedWell] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+
   useEffect(() => {
     if (!currentWell) return;
     async function load() {
@@ -22,15 +26,9 @@ export default function NearbyWells() {
       setError("");
       try {
         const results = await getNearbyWells(currentWell.lat, currentWell.lng, radius);
-        // backend doesn't return distance — calculate it ourselves
         const withDistance = results.map((w) => {
           const [lng, lat] = w.location.coordinates;
-          return {
-            ...w,
-            lat,
-            lng,
-            distance_km: calculateDistanceKm(currentWell.lat, currentWell.lng, lat, lng),
-          };
+          return { ...w, lat, lng, distance_km: calculateDistanceKm(currentWell.lat, currentWell.lng, lat, lng) };
         });
         withDistance.sort((a, b) => a.distance_km - b.distance_km);
         setWells(withDistance);
@@ -56,13 +54,27 @@ export default function NearbyWells() {
     navigate(`/well/${wellId}/dashboard`);
   }
 
+  // NEW: open popup with full well details, instead of navigating to another page
+  async function openWellInfo(w) {
+    setSelectedWell(w); // show basic info immediately
+    setModalLoading(true);
+    try {
+      const full = await getWellByWellId(w.wellId); // fetch full details
+      setSelectedWell({ ...w, ...full });
+    } catch {
+      // keep the basic info if full fetch fails
+    } finally {
+      setModalLoading(false);
+    }
+  }
+
   if (!currentWell) return <div className="loading">No well selected. Go back and search for one.</div>;
   if (loading) return <div className="loading">Loading nearby wells...</div>;
 
   const center = [currentWell.lat, currentWell.lng];
 
   return (
-    <div className="card">
+    <div className="card" style={{ position: "relative" }}>
       <h3>Nearby Well Discovery</h3>
       <p style={{ color: "#64748b", fontSize: 13, marginBottom: 16 }}>
         Current Well: <strong>{currentWell.wellId}</strong> · {currentWell.field}
@@ -72,12 +84,7 @@ export default function NearbyWells() {
 
       <div style={{ marginBottom: 16 }}>
         {[5, 10, 25].map((r) => (
-          <button
-            key={r}
-            className={r === radius ? "primary" : "secondary"}
-            style={{ marginRight: 8 }}
-            onClick={() => setRadius(r)}
-          >
+          <button key={r} className={r === radius ? "primary" : "secondary"} style={{ marginRight: 8 }} onClick={() => setRadius(r)}>
             {r} km
           </button>
         ))}
@@ -92,31 +99,32 @@ export default function NearbyWells() {
               <Popup>★ Current Well: {currentWell.wellId}</Popup>
             </Marker>
             {wells.map((w) => (
-              <Marker key={w.wellId} position={[w.lat, w.lng]}>
-                <Popup>{w.wellId} — {w.distance_km} km</Popup>
+              <Marker
+                key={w.wellId}
+                position={[w.lat, w.lng]}
+                eventHandlers={{ click: () => openWellInfo(w) }}
+              >
+                <Popup>{w.wellId} — {w.distance_km} km (click marker for full info)</Popup>
               </Marker>
             ))}
           </MapContainer>
         </div>
 
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8 }}>
-            {wells.length} nearby wells found
-          </div>
+          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8 }}>{wells.length} nearby wells found</div>
           {wells.map((w) => (
-            <label key={w.wellId} className="well-list-item" style={{ cursor: "pointer" }}>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={!!checked[w.wellId]}
-                  onChange={() => toggle(w.wellId)}
-                  style={{ width: "auto", marginRight: 8 }}
-                />
-                <strong>{w.wellId}</strong>
-                <span style={{ color: "#64748b", fontSize: 12 }}> · {w.wellName}</span>
-              </div>
-              <span style={{ fontSize: 12, color: "#64748b" }}>{w.distance_km} km</span>
-            </label>
+            <div key={w.wellId} className="well-list-item">
+              <label style={{ display: "flex", alignItems: "center", cursor: "pointer", flex: 1 }}>
+                <input type="checkbox" checked={!!checked[w.wellId]} onChange={() => toggle(w.wellId)} style={{ width: "auto", marginRight: 8 }} />
+                <div>
+                  <strong>{w.wellId}</strong>
+                  <span style={{ color: "#64748b", fontSize: 12 }}> · {w.wellName}</span>
+                </div>
+              </label>
+              <button className="secondary" style={{ padding: "4px 10px", fontSize: 12 }} onClick={() => openWellInfo(w)}>
+                {w.distance_km} km · View
+              </button>
+            </div>
           ))}
         </div>
       </div>
@@ -125,6 +133,25 @@ export default function NearbyWells() {
         <button className="secondary" onClick={() => navigate(-1)}>Back</button>
         <button className="primary" onClick={handleContinue}>Continue →</button>
       </div>
+
+      {/* NEW: popup modal, same page, closes with the cross */}
+      {selectedWell && (
+        <div className="modal-overlay" onClick={() => setSelectedWell(null)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setSelectedWell(null)}>✕</button>
+            <h3>{selectedWell.wellId} — {selectedWell.wellName || ""}</h3>
+            {modalLoading && <p className="loading">Loading full details...</p>}
+            <div style={{ fontSize: 14, lineHeight: 1.9, marginTop: 10 }}>
+              <div>Field: <strong>{selectedWell.field || "—"}</strong></div>
+              <div>Block: <strong>{selectedWell.block || "—"}</strong></div>
+              <div>Well Type: <strong>{selectedWell.wellType || "—"}</strong></div>
+              <div>Total Depth: <strong>{selectedWell.totalDepth || "—"} m</strong></div>
+              <div>Status: <strong>{selectedWell.status || "—"}</strong></div>
+              <div>Distance from current well: <strong>{selectedWell.distance_km} km</strong></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
