@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 from prediction import predict_risk,explain_prediction
+from gemini_service import upload_documents, ask_historical_question
 
 app = FastAPI()
 
@@ -28,6 +29,10 @@ class DrillingData(BaseModel):
     Distance_To_Nearest_Offset_m: float
     Historical_Event_Count: int
 
+class HistoricalQuestion(BaseModel):
+    question: str
+    well_ids: list[str] = []
+
 @app.post("/predict")
 def make_prediction(data: DrillingData):
     df = pd.DataFrame([data.dict()])
@@ -45,3 +50,17 @@ def explain(data: DrillingData):
         result[target] = df_explain.to_dict(orient="records")
     
     return result
+
+@app.post("/historical-intelligence")
+def historical_intelligence(data: HistoricalQuestion):
+    documents = upload_documents()
+    answer = ask_historical_question(
+        question=data.question,
+        documents=documents,
+        well_ids=data.well_ids
+    )
+    return {
+        "question": data.question,
+        "well_ids": data.well_ids,
+        "answer": answer
+    }

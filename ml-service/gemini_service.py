@@ -16,8 +16,6 @@ if not api_key:
         f"GEMINI_API_KEY not found in {ENV_FILE}"
     )
 
-print(f"Gemini API key loaded: {api_key[:10]}...")
-
 client = genai.Client(
     api_key=api_key
 )
