@@ -64,61 +64,110 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 .top-navbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
 .top-navbar .well-meta { font-size: 13px; color: #475569; display: flex; gap: 20px; }
 .top-navbar .well-meta strong { color: #1a1a2e; }
-/* ---------- Historical Document Search ---------- */
-.search-input-row { display: flex; gap: 10px; }
-.search-input-row input { margin-top: 0; }
+</parameter>
+  /* ---------- RESPONSIVE — phone & tablet screens ---------- */
+@media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
 
-.qa-thread { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
+  /* Sidebar becomes a horizontal top bar on phones, not a side column */
+  .sidebar {
+    width: 100% !important;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    align-items: center;
+  }
+  .sidebar.collapsed {
+    width: 100% !important;
+  }
+  .sidebar h2 {
+    padding: 0 12px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .sidebar .engineer {
+    display: none; /* hide on phone, not enough space */
+  }
+  .sidebar a {
+    padding: 8px 12px;
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    font-size: 13px;
+  }
+  .sidebar a.active {
+    border-left: none;
+    border-bottom: 3px solid #3b82f6;
+  }
+  .sidebar-toggle {
+    display: none; /* collapse toggle doesn't make sense in horizontal mode */
+  }
 
-.qa-item { animation: fadeIn 0.25s ease; }
+  /* Top navbar wraps instead of overflowing */
+  .top-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+  .top-navbar .well-meta {
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12px;
+  }
 
-.qa-question { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-.qa-question .qa-icon { background: #2563eb; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
-.qa-question .qa-text { background: #eff6ff; border: 1px solid #dbeafe; padding: 10px 14px; border-radius: 10px 10px 10px 2px; font-size: 14px; font-weight: 600; color: #1e3a5f; }
+  /* Main content gets phone-safe padding */
+  .main-content {
+    padding: 16px;
+    max-width: 100%;
+  }
 
-.qa-answer { display: flex; align-items: flex-start; gap: 10px; }
-.qa-answer .qa-icon { background: #16213e; color: #fbbf24; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-.qa-answer-body { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px 10px 10px 2px; padding: 16px 18px; flex: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-.qa-answer-body p { font-size: 14px; line-height: 1.7; color: #1a1a2e; margin-bottom: 10px; white-space: pre-line; }
-.qa-answer-body p:last-child { margin-bottom: 0; }
+  /* Grids stack into a single column on phones */
+  .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
 
-.qa-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 3px 9px; border-radius: 20px; margin-top: 12px; letter-spacing: 0.3px; text-transform: uppercase; }
-.qa-tag::before { content: "●"; color: #16a34a; font-size: 8px; }
+  /* Well workspace card fits phone width */
+  .workspace-card {
+    width: 100% !important;
+    max-width: 400px;
+  }
+  .workspace-header h1 {
+    font-size: 24px;
+  }
 
-.qa-empty { text-align: center; padding: 40px 20px; color: #94a3b8; }
-.qa-empty .qa-empty-icon { font-size: 32px; margin-bottom: 10px; }
-.qa-empty p { font-size: 14px; }
-.qa-empty .qa-hint { font-size: 12px; color: #cbd5e1; margin-top: 6px; }
+  /* Login box fits phone width */
+  .login-box {
+    width: 90% !important;
+    max-width: 340px;
+    padding: 28px;
+  }
 
-.qa-loading-note { font-size: 12px; color: #94a3b8; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
-.qa-loading-note .dot { width: 6px; height: 6px; background: #2563eb; border-radius: 50%; animation: pulse 1s infinite ease-in-out; }
-.qa-loading-note .dot:nth-child(2) { animation-delay: 0.2s; }
-.qa-loading-note .dot:nth-child(3) { animation-delay: 0.4s; }
+  /* Modal popup fits phone width */
+  .modal-box {
+    width: 85% !important;
+    max-width: 320px;
+  }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-/* ---------- Markdown-rendered answer content ---------- */
-.qa-markdown h1, .qa-markdown h2, .qa-markdown h3 {
-  font-size: 15px; color: #1e3a5f; margin: 18px 0 8px; font-weight: 700;
-  display: flex; align-items: center; gap: 8px;
+  /* Well list items stack their text/status vertically if tight */
+  .well-list-item {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
 }
-.qa-markdown h3:first-child, .qa-markdown h2:first-child, .qa-markdown h1:first-child { margin-top: 4px; }
-.qa-markdown h3::before { content: "▸"; color: #2563eb; font-size: 13px; }
 
-.qa-markdown p { font-size: 14px; line-height: 1.7; color: #334155; margin-bottom: 10px; }
-.qa-markdown strong { color: #0f1729; font-weight: 700; background: #fef9c3; padding: 1px 4px; border-radius: 3px; }
-
-.qa-markdown ul, .qa-markdown ol { margin: 8px 0 14px 4px; padding-left: 18px; }
-.qa-markdown li { font-size: 14px; line-height: 1.7; color: #334155; margin-bottom: 6px; padding-left: 4px; }
-.qa-markdown ul li::marker { color: #2563eb; }
-.qa-markdown ol li::marker { color: #2563eb; font-weight: 700; }
-
-.qa-markdown hr { border: none; border-top: 1px dashed #cbd5e1; margin: 16px 0; }
-
-.qa-markdown code {
-  background: #f1f5f9; color: #0f172a; padding: 1px 6px; border-radius: 4px;
-  font-size: 13px; font-family: "Consolas", monospace; border: 1px solid #e2e8f0;
+@media (max-width: 420px) {
+  .risk-pct {
+    font-size: 24px;
+  }
+  .page-title {
+    font-size: 18px;
+  }
+  button.primary, button.secondary {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }
-
-/* Highlight "Outcome" / "Problem" style labels inside bold text visually via first-line emphasis */
-.qa-markdown li strong:first-child { color: #1d4ed8; }
