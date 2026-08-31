@@ -17,7 +17,7 @@ if not api_key:
 
 client = genai.Client(api_key=api_key)
 
-STORE_DISPLAY_NAME = "NWIS Historical WCR DDR Documents"
+STORE_DISPLAY_NAME = "NWIS Historical WCR DDR Documents V2"
 
 def find_existing_store():
     print("\nSearching for existing File Search Store...")
@@ -68,89 +68,52 @@ def upload_documents(store):
         DOCUMENT_FOLDER.glob("*.pdf")
     )
     if not pdf_files:
-        raise FileNotFoundError(
-            "No PDF files found inside "
-            "wcr_ddr_pdf folder."
-        )
-    print(
-        f"\nFound {len(pdf_files)} PDF files."
-    )
-    print(
-        "\nStarting document indexing..."
-    )
+        raise FileNotFoundError("No PDF files found inside ""wcr_ddr_pdf folder.")
+    print(f"\nFound {len(pdf_files)} PDF files.")
+    print("\nStarting document indexing...")
     for pdf in pdf_files:
         print(
             f"\nIndexing: {pdf.name}"
         )
         try:
-            # ------------------------------------------------
-            # Determine Well ID from filename
-            #
-            # Example:
-            # W001_WCR.pdf -> W001
-            # W002_DDR.pdf -> W002
-            # ------------------------------------------------
-            filename_without_extension = (
-                pdf.stem
-            )
-            parts = (
-                filename_without_extension
-                .split("_")
-            )
-            well_id = parts[0]
+            file_to_well = {
+            "ddr1.pdf": "W001",
+            "ddr2.pdf": "W002",
+            "ddr3.pdf": "W003",
+            "wcr1.pdf": "W001",
+            "wcr2.pdf": "W002",
+            "wcr3.pdf": "W003"
+            }
+
+            well_id = file_to_well.get(pdf.name.lower())
+            if not well_id:
+                print(f"  ERROR: No Well ID mapping for {pdf.name}")
+                continue
+            filename_without_extension = pdf.stem
             # Determine document type
             document_type = "UNKNOWN"
+            upper_name = (filename_without_extension.upper())
 
-            upper_name = (
-                filename_without_extension
-                .upper()
-            )
-
-            if "WCR" in upper_name:
-
-                document_type = "WCR"
-
-            elif "DDR" in upper_name:
-
-                document_type = "DDR"
-
-            print(
-                f"Well ID: {well_id}"
-            )
-
-            print(
-                f"Document type: {document_type}"
-            )
+            if "WCR" in upper_name:document_type = "WCR"
+            elif "DDR" in upper_name:document_type = "DDR"
+            print(f"Well ID: {well_id}")
+            print(f"Document type: {document_type}")
             operation = (
                 client.file_search_stores
                 .upload_to_file_search_store(
-
                     file=str(pdf),
-
                     file_search_store_name=
                         store.name,
-
                     config={
-
                         "display_name":
                             pdf.name,
-
                         "custom_metadata": [
-
                             {
-                                "key":
-                                    "Well_ID",
-
-                                "string_value":
-                                    well_id
+                                "key":"Well_ID",
+                                "string_value":well_id
                             },
-
                             {
-                                "key":
-                                    "Document_Type",
-
-                                "string_value":
-                                    document_type
+                                "key":"Document_Type","string_value":document_type
                             }
                         ]
                     }
@@ -158,9 +121,7 @@ def upload_documents(store):
             )
 
             while not operation.done:
-                print(
-                    "  Indexing..."
-                )
+                print("  Indexing...")
                 time.sleep(3)
                 operation = (
                     client.operations.get(
@@ -172,13 +133,11 @@ def upload_documents(store):
                 f"{pdf.name}"
             )
         except Exception as e:
-
             print(
                 f"  ERROR indexing "
                 f"{pdf.name}: {e}"
             )
 def main():
-
     print("\n========================================")
     print("NWIS HISTORICAL DOCUMENT SETUP")
     print("========================================")
@@ -186,18 +145,10 @@ def main():
     if store is None:
         store = create_store()
         upload_documents(store)
-
     else:
-        print(
-            "\nExisting File Search Store found."
-        )
-        print(
-            "\nDocuments were NOT uploaded again."
-        )
-        print(
-            "The existing indexed documents "
-            "will be reused."
-        )
+        print("\nExisting File Search Store found.")
+        print("\nDocuments were NOT uploaded again.")
+        print("The existing indexed documents ""will be reused.")
     store_file = BASE_DIR / "file_search_store.txt"
     with open(
         store_file,
@@ -205,7 +156,6 @@ def main():
         encoding="utf-8"
     ) as f:
         f.write(store.name)
-
     print("\n========================================")
     print("SETUP COMPLETE")
     print("========================================")

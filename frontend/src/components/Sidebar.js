@@ -27,9 +27,26 @@ export default function Sidebar() {
           <span>{l.label}</span>
         </NavLink>
       ))}
-      <a onClick={logout} style={{ cursor: "pointer", marginTop: 20, color: "#f87171", display: "block", padding: "10px 20px" }}>
+      {/* <a onClick={logout} style={{ cursor: "pointer", marginTop: 20, color: "#f87171", display: "block", padding: "10px 20px" }}>
         <span>Logout</span>
-      </a>
+      </a> */}
+      <button
+  onClick={logout}
+  style={{
+    cursor: "pointer",
+    marginTop: 20,
+    color: "#f87171",
+    display: "block",
+    padding: "10px 20px",
+    background: "none",
+    border: "none",
+    width: "100%",
+    textAlign: "left",
+    fontSize: "14px"
+  }}
+>
+  <span>Logout</span>
+</button>
     </div>
   );
 }

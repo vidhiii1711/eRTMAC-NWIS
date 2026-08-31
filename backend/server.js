@@ -11,7 +11,10 @@ const riskRoutes = require('./routes/riskRoutes');
 const earlyWarningRoutes = require('./routes/earlyWarningRoutes');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['https://e-rtmac-nwis.vercel.app', 'http://localhost:3000'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use((req, res, next) => {
   console.log('Body received:', req.body);

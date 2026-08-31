@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://nwis-backend.onrender.com";
 
 const http = axios.create({ baseURL: BASE_URL, timeout: 8000 });
 

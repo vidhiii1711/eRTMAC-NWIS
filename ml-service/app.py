@@ -5,9 +5,16 @@ from prediction import predict_risk,explain_prediction
 from gemini_service import ask_historical_question
 from early_warning import generate_early_warning
 from historical_intelligence import find_upcoming_events
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://nwis-backend.onrender.com"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class DrillingData(BaseModel):
     Well_ID: str
