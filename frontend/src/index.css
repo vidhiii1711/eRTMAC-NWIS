@@ -64,7 +64,6 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 .top-navbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
 .top-navbar .well-meta { font-size: 13px; color: #475569; display: flex; gap: 20px; }
 .top-navbar .well-meta strong { color: #1a1a2e; }
-</parameter>
   /* ==================== RESPONSIVE ==================== */
 /* Tablets and small laptops */
 @media (max-width: 1024px) {
