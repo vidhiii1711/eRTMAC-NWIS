@@ -64,6 +64,8 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 .top-navbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
 .top-navbar .well-meta { font-size: 13px; color: #475569; display: flex; gap: 20px; }
 .top-navbar .well-meta strong { color: #1a1a2e; }
+<<<<<<< HEAD
+=======
   /* ==================== RESPONSIVE ==================== */
 /* Tablets and small laptops */
 @media (max-width: 1024px) {
@@ -74,37 +76,55 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 /* Tablets / large phones (landscape) */
 @media (max-width: 768px) {
   .app-shell { flex-direction: column; }
+>>>>>>> 3624d941a23612b06240ac0f1a43e1567fd43f42
 
-  .sidebar { width: 100%; padding: 12px 0; }
-  .sidebar.collapsed { width: 100%; }
-  .sidebar h2 { padding: 0 16px 12px; font-size: 18px; }
-  .sidebar .engineer { padding: 0 16px 12px; }
-  .sidebar a { padding: 10px 16px; }
+ /* ====================================================================
+   RESPONSIVE — added only, nothing above this line is changed
+   Layout structure stays identical (sidebar stays left, same order),
+   only sizes/spacing scale down for smaller screens.
+   ==================================================================== */
 
+/* Tablets */
+@media (max-width: 900px) {
+  .sidebar { width: 180px; }
   .main-content { padding: 20px; }
-  .page-title { font-size: 20px; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .workspace-card { width: 90%; max-width: 420px; }
+  .modal-box { width: 85%; max-width: 340px; }
+  .top-navbar { flex-wrap: wrap; gap: 8px; }
+  .top-navbar .well-meta { flex-wrap: wrap; gap: 12px; }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .sidebar { width: 140px; padding: 14px 0; }
+  .sidebar h2 { font-size: 16px; padding: 0 12px 12px; }
+  .sidebar .engineer { font-size: 11px; padding: 0 12px 12px; }
+  .sidebar a { padding: 8px 12px; font-size: 12px; }
+  .sidebar-toggle { padding: 8px 12px; font-size: 13px; }
+
+  .main-content { padding: 14px; }
 
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
 
-  .top-navbar { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
-  .top-navbar .well-meta { flex-wrap: wrap; gap: 10px; font-size: 12px; }
+  .page-title { font-size: 18px; }
+  .page-subtitle { font-size: 12px; }
 
-  .login-box { width: 90%; max-width: 360px; }
-  .workspace-card { width: 92%; }
-  .workspace-header h1 { font-size: 26px; }
+  .card { padding: 14px; }
+  .risk-pct { font-size: 24px; }
 
-  .modal-box { width: 90%; max-width: 360px; margin: 0 16px; }
+  .top-navbar { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 14px; }
+  .top-navbar .well-meta { flex-wrap: wrap; gap: 8px; font-size: 11px; }
 
-  .btn-row { flex-direction: column; gap: 10px; }
-  .btn-row button { width: 100%; }
-}
+  .login-box { width: 85%; max-width: 320px; padding: 24px; }
+  .workspace-wrap { padding: 12px; }
+  .workspace-header h1 { font-size: 24px; }
+  .workspace-card { width: 100%; }
+  .tab-btn { font-size: 12px; padding: 10px; }
 
-/* Small phones */
-@media (max-width: 480px) {
-  .card { padding: 16px; }
-  .risk-pct { font-size: 26px; }
-  .well-list-item { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .tab-btn { font-size: 12px; padding: 12px 8px; }
-  .workspace-header h1 { font-size: 22px; }
-  .login-box { padding: 24px; }
+  .modal-box { width: 88%; padding: 16px; }
+
+  .well-list-item { padding: 10px 12px; }
+
+  .btn-row button { padding: 8px 14px; font-size: 13px; }
 }
