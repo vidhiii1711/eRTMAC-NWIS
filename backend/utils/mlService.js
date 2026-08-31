@@ -39,11 +39,11 @@ const cleanPayload = (record) => {
 //   return response.data;
 // };
 
-// const getRiskExplanation = async (record) => {
-//   const payload = cleanPayload(record);
-//   const response = await axios.post(ML_EXPLAIN_URL, payload);
-//   return response.data;
-// };
+const getRiskExplanation = async (record) => {
+  const payload = cleanPayload(record);
+  const response = await axios.post(ML_EXPLAIN_URL, payload);
+  return response.data;
+};
 
 // const getHistoricalAnswer = async (question, wellIds) => {
 //   const response = await axios.post(ML_HISTORICAL_URL, {
