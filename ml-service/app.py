@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 from prediction import predict_risk,explain_prediction
-from gemini_service import upload_documents, ask_historical_question
+from gemini_service import ask_historical_question
 from early_warning import generate_early_warning
 from historical_intelligence import find_upcoming_events
 
@@ -56,10 +56,8 @@ def explain(data: DrillingData):
 
 @app.post("/historical-intelligence")
 def historical_intelligence(data: HistoricalQuestion):
-    documents = upload_documents()
     answer = ask_historical_question(
         question=data.question,
-        documents=documents,
         well_ids=data.well_ids
     )
     return {
