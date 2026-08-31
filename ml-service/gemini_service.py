@@ -19,7 +19,7 @@ client = genai.Client(api_key=api_key)
 
 MODEL_NAME = "gemini-3.6-flash"
 
-STORE_DISPLAY_NAME = ("NWIS Historical WCR DDR Documents")
+STORE_DISPLAY_NAME = ("NWIS Historical WCR DDR Documents V2")
 
 def get_store_name():
     # First try local file
