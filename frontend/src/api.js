@@ -117,7 +117,7 @@ export async function getRiskExplanation(wellId) {
 // ---------- HISTORICAL DOCUMENT SEARCH (Gemini) ----------
 // REAL endpoint — no more mock needed.
 export async function askHistoricalQuestion(question, wellIds = []) {
-  const res = await http.post("/api/risk/historical-search", { question, wellIds },{ timeout: 80000 });
+  const res = await http.post("/api/risk/historical-search", { question, wellIds },{ timeout: 240000 });
   return res.data; // { question, well_ids, answer }
 }
 

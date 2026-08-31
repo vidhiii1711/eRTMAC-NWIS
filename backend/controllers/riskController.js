@@ -1,5 +1,5 @@
 const DrillingData = require('../models/DrillingData');
-const { getRiskPrediction, getRiskExplanation } = require('../utils/mlService');
+const { getRiskPrediction, getRiskExplanation ,getHistoricalAnswer} = require('../utils/mlService');
 
 // @route GET /api/risk/:wellId
 // Gets the LATEST drilling reading for a well, and asks her API to predict risk
@@ -22,6 +22,7 @@ exports.predictRiskForWell = async (req, res) => {
       wellId,
       timestamp: latestRecord.Timestamp,
       depth: latestRecord.Depth_MD,
+       formation: latestRecord.Formation,
       prediction,
     });
   } catch (error) {
@@ -56,6 +57,26 @@ exports.explainRiskForWell = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: 'Error getting explanation',
+      error: error.message,
+    });
+  }
+};
+// @route POST /api/historical-search
+exports.searchHistoricalDocuments = async (req, res) => {
+  try {
+    const { question, wellIds } = req.body;
+
+    if (!question || !question.trim()) {
+      return res.status(400).json({ message: 'Question is required' });
+    }
+    console.time('historical-search-duration');
+    const result = await getHistoricalAnswer(question, wellIds || []);
+    console.timeEnd('historical-search-duration'); 
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error searching historical documents',
       error: error.message,
     });
   }
