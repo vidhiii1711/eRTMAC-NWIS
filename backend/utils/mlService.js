@@ -33,24 +33,50 @@ const cleanPayload = (record) => {
   };
 };
 
+// const getRiskPrediction = async (record) => {
+//   const payload = cleanPayload(record);
+//   const response = await axios.post(ML_PREDICT_URL, payload);
+//   return response.data;
+// };
+
+// const getRiskExplanation = async (record) => {
+//   const payload = cleanPayload(record);
+//   const response = await axios.post(ML_EXPLAIN_URL, payload);
+//   return response.data;
+// };
+
+// const getHistoricalAnswer = async (question, wellIds) => {
+//   const response = await axios.post(ML_HISTORICAL_URL, {
+//     question,
+//     well_ids: wellIds,
+//   });
+//   return response.data; // { question, well_ids, answer }
+// };
+
 const getRiskPrediction = async (record) => {
   const payload = cleanPayload(record);
-  const response = await axios.post(ML_PREDICT_URL, payload);
-  return response.data;
-};
-
-const getRiskExplanation = async (record) => {
-  const payload = cleanPayload(record);
-  const response = await axios.post(ML_EXPLAIN_URL, payload);
-  return response.data;
+  try {
+    const response = await axios.post(ML_PREDICT_URL, payload);
+    return response.data;
+  } catch (error) {
+    console.error('ML_PREDICT_URL value:', ML_PREDICT_URL);
+    console.error('Predict API call failed:', error.message);
+    throw error;
+  }
 };
 
 const getHistoricalAnswer = async (question, wellIds) => {
-  const response = await axios.post(ML_HISTORICAL_URL, {
-    question,
-    well_ids: wellIds,
-  });
-  return response.data; // { question, well_ids, answer }
+  try {
+    const response = await axios.post(ML_HISTORICAL_URL, {
+      question,
+      well_ids: wellIds,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('ML_HISTORICAL_URL value:', ML_HISTORICAL_URL);
+    console.error('Historical API call failed:', error.message);
+    throw error; // still throw so the controller's catch block returns 500 properly
+  }
 };
 
 module.exports = { getRiskPrediction, getRiskExplanation, getHistoricalAnswer};
