@@ -65,109 +65,47 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 .top-navbar .well-meta { font-size: 13px; color: #475569; display: flex; gap: 20px; }
 .top-navbar .well-meta strong { color: #1a1a2e; }
 </parameter>
-  /* ---------- RESPONSIVE — phone & tablet screens ---------- */
+  /* ==================== RESPONSIVE ==================== */
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .main-content { padding: 24px; max-width: 100%; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .workspace-card { width: 90%; max-width: 480px; }
+}
+/* Tablets / large phones (landscape) */
 @media (max-width: 768px) {
-  .app-shell {
-    flex-direction: column;
-  }
+  .app-shell { flex-direction: column; }
 
-  /* Sidebar becomes a horizontal top bar on phones, not a side column */
-  .sidebar {
-    width: 100% !important;
-    padding: 10px 0;
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    align-items: center;
-  }
-  .sidebar.collapsed {
-    width: 100% !important;
-  }
-  .sidebar h2 {
-    padding: 0 12px;
-    font-size: 16px;
-    white-space: nowrap;
-  }
-  .sidebar .engineer {
-    display: none; /* hide on phone, not enough space */
-  }
-  .sidebar a {
-    padding: 8px 12px;
-    white-space: nowrap;
-    border-left: none;
-    border-bottom: 3px solid transparent;
-    font-size: 13px;
-  }
-  .sidebar a.active {
-    border-left: none;
-    border-bottom: 3px solid #3b82f6;
-  }
-  .sidebar-toggle {
-    display: none; /* collapse toggle doesn't make sense in horizontal mode */
-  }
+  .sidebar { width: 100%; padding: 12px 0; }
+  .sidebar.collapsed { width: 100%; }
+  .sidebar h2 { padding: 0 16px 12px; font-size: 18px; }
+  .sidebar .engineer { padding: 0 16px 12px; }
+  .sidebar a { padding: 10px 16px; }
 
-  /* Top navbar wraps instead of overflowing */
-  .top-navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 12px 16px;
-  }
-  .top-navbar .well-meta {
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 12px;
-  }
+  .main-content { padding: 20px; }
+  .page-title { font-size: 20px; }
 
-  /* Main content gets phone-safe padding */
-  .main-content {
-    padding: 16px;
-    max-width: 100%;
-  }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
 
-  /* Grids stack into a single column on phones */
-  .grid-3, .grid-2 {
-    grid-template-columns: 1fr;
-  }
+  .top-navbar { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
+  .top-navbar .well-meta { flex-wrap: wrap; gap: 10px; font-size: 12px; }
 
-  /* Well workspace card fits phone width */
-  .workspace-card {
-    width: 100% !important;
-    max-width: 400px;
-  }
-  .workspace-header h1 {
-    font-size: 24px;
-  }
+  .login-box { width: 90%; max-width: 360px; }
+  .workspace-card { width: 92%; }
+  .workspace-header h1 { font-size: 26px; }
 
-  /* Login box fits phone width */
-  .login-box {
-    width: 90% !important;
-    max-width: 340px;
-    padding: 28px;
-  }
+  .modal-box { width: 90%; max-width: 360px; margin: 0 16px; }
 
-  /* Modal popup fits phone width */
-  .modal-box {
-    width: 85% !important;
-    max-width: 320px;
-  }
-
-  /* Well list items stack their text/status vertically if tight */
-  .well-list-item {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .btn-row { flex-direction: column; gap: 10px; }
+  .btn-row button { width: 100%; }
 }
 
-@media (max-width: 420px) {
-  .risk-pct {
-    font-size: 24px;
-  }
-  .page-title {
-    font-size: 18px;
-  }
-  button.primary, button.secondary {
-    padding: 8px 14px;
-    font-size: 13px;
-  }
+/* Small phones */
+@media (max-width: 480px) {
+  .card { padding: 16px; }
+  .risk-pct { font-size: 26px; }
+  .well-list-item { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .tab-btn { font-size: 12px; padding: 12px 8px; }
+  .workspace-header h1 { font-size: 22px; }
+  .login-box { padding: 24px; }
 }
