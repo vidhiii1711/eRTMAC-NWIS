@@ -9,6 +9,31 @@ const formationsData = require('./data/formations.json');
 const DrillingData = require('./models/DrillingData');
 const drillingData = require('./data/drilling_timeseries_balanced.json');
 
+const getLatestFormationPerWell = (records) => {
+  const latestByWell = {}; // { wellId: { timestamp, formation } }
+
+  records.forEach((record) => {
+    const wellId = record.Well_ID;
+    const timestamp = new Date(record.Timestamp);
+
+    if (!latestByWell[wellId] || timestamp > latestByWell[wellId].timestamp) {
+      latestByWell[wellId] = {
+        timestamp,
+        formation: record.Formation,
+      };
+    }
+  });
+
+  // Convert to simple { wellId: formation } map
+  const formationMap = {};
+  Object.keys(latestByWell).forEach((wellId) => {
+    formationMap[wellId] = latestByWell[wellId].formation;
+  });
+
+  return formationMap;
+};
+
+const formationLookup = getLatestFormationPerWell(drillingData);
 
 // Convert raw JSON (Latitude/Longitude as strings) into schema-ready format
 const formatWells = (rawWells) => {
@@ -29,6 +54,7 @@ const formatWells = (rawWells) => {
     completionDate: well.Completion_Date,
     totalDepth: parseFloat(well.Total_Depth),
     status: well.Status,
+    formation: formationLookup[well.Well_ID] || null,
   }));
 };
 

@@ -17,6 +17,7 @@ const wellSchema = new mongoose.Schema(
     completionDate: String,
     totalDepth: Number,
     status: String,          // Completed / Drilling
+    formation: String,
   },
   { timestamps: true }
 );

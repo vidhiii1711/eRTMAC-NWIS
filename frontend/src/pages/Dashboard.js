@@ -52,7 +52,7 @@ export default function Dashboard() {
     <div>
       <div className="page-title">Well: {currentWell.wellId} <span style={{ fontSize: 13, color: "#16a34a" }}>● {currentWell.status}</span></div>
       <div className="page-subtitle">
-        Field: {currentWell.field} · Depth: {currentWell.totalDepth} m · Formation: {risk?.formation || "—"}
+        Field: {currentWell.field} · Depth: {currentWell.totalDepth} m · Formation: {currentWell.formation || "—"}
       </div>
 
       {/* EARLY WARNING — real endpoint (risk model + historical events combined) */}
