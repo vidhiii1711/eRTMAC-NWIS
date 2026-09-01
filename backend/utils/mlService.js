@@ -6,6 +6,9 @@ const ML_HISTORICAL_URL = process.env.ML_HISTORICAL_URL || 'http://localhost:800
 
 // Removes MongoDB's internal fields + label fields before sending to her API
 // (her API only expects the 20 raw fields she defined in DrillingData class)
+
+const mlAxios = axios.create({ timeout: 240000 });
+
 const cleanPayload = (record) => {
   return {
     Well_ID: record.Well_ID,
@@ -38,11 +41,11 @@ const cleanPayload = (record) => {
 //   return response.data;
 // };
 
-const getRiskExplanation = async (record) => {
-  const payload = cleanPayload(record);
-  const response = await axios.post(ML_EXPLAIN_URL, payload);
-  return response.data;
-};
+// const getRiskExplanation = async (record) => {
+//   const payload = cleanPayload(record);
+//   const response = await axios.post(ML_EXPLAIN_URL, payload);
+//   return response.data;
+// };
 
 // const getHistoricalAnswer = async (question, wellIds) => {
 //   const response = await axios.post(ML_HISTORICAL_URL, {
@@ -63,6 +66,17 @@ const getRiskExplanation = async (record) => {
 //     throw error;
 //   }
 // };
+
+const getRiskExplanation = async (record) => {
+  const payload = cleanPayload(record);
+  try {
+    const response = await mlAxios.post(ML_EXPLAIN_URL, payload);
+    return response.data;
+  } catch (error) {
+    console.error('Explain API call failed:', error.message);
+    throw new Error('Risk explanation service is currently unavailable. Please try again.');
+  }
+};
 
 const getRiskPrediction = async (record) => {
   const payload = cleanPayload(record);
