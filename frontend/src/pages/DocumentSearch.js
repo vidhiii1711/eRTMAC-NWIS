@@ -1,17 +1,78 @@
+// import React, { useState } from "react";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
+// import { askHistoricalQuestion } from "../api";
+// import { useWell } from "../context/WellContext";
+
+// // Gemini sometimes writes inline math like $2905\text{ m}$ or $8\text{ bbl/hr}$.
+// // We don't need full LaTeX rendering for a drilling dashboard — just strip the
+// // LaTeX wrapper and \text{} command so it reads as plain, clean text.
+// function cleanMathNotation(text) {
+//   return text
+//     .replace(/\$([^$]+)\$/g, (match, inner) => inner.replace(/\\text\{([^}]*)\}/g, "$1"))
+//     .replace(/\\text\{([^}]*)\}/g, "$1");
+// }
+
+// export default function DocumentSearch() {
+//   const { currentWell } = useWell();
+//   const [question, setQuestion] = useState("");
+//   const [asking, setAsking] = useState(false);
+//   const [history, setHistory] = useState([]);
+//   const [error, setError] = useState("");
+
+//   async function handleAsk(e) {
+//     e.preventDefault();
+//     if (!question.trim()) return;
+//     setAsking(true);
+//     setError("");
+//     try {
+//       const wellIds = currentWell ? [currentWell.wellId] : [];
+//       const res = await askHistoricalQuestion(question, wellIds);
+//       setHistory((h) => [{ question, answer: cleanMathNotation(res.answer) }, ...h]);
+//       setQuestion("");
+//     } catch (err) {
+//       setError("Could not fetch historical information. Try again.");
+//     } finally {
+//       setAsking(false);
+//     }
+//   }
+
+//   return (
+//     <div>
+//       <div className="page-title">Historical Document Search</div>
+//       <div className="page-subtitle">Ask about WCR / DDR / historical reports for nearby wells</div>
+
+//       <div className="card">
+//         <form onSubmit={handleAsk} style={{ display: "flex", gap: 8 }}>
+//           <input
+//             value={question}
+//             onChange={(e) => setQuestion(e.target.value)}
+//             placeholder='e.g. "What happened around 2900m?"'
+//           />
+//           <button className="primary" type="submit" disabled={asking}>
+//             {asking ? "Searching historical documents (may take 60-90s)..." : "Ask"}
+//           </button>
+//         </form>
+//         {error && <p style={{ color: "#dc2626", fontSize: 13, marginTop: 8 }}>{error}</p>}
+//       </div>
+
+//       {history.length === 0 && !asking && (
+//         <p style={{ color: "#94a3b8", fontSize: 13 }}>No questions asked yet — try the example above.</p>
+//       )}
+
+//       {history.map((h, i) => (
+//         <div className="card" key={i}>
+//           <p style={{ fontSize: 13, color: "#64748b", marginBottom: 6 }}>Q: {h.question}</p>
+//           <p style={{ fontSize: 14, whiteSpace: "pre-line" }}>{h.answer}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
 import React, { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { askHistoricalQuestion } from "../api";
 import { useWell } from "../context/WellContext";
-
-// Gemini sometimes writes inline math like $2905\text{ m}$ or $8\text{ bbl/hr}$.
-// We don't need full LaTeX rendering for a drilling dashboard — just strip the
-// LaTeX wrapper and \text{} command so it reads as plain, clean text.
-function cleanMathNotation(text) {
-  return text
-    .replace(/\$([^$]+)\$/g, (match, inner) => inner.replace(/\\text\{([^}]*)\}/g, "$1"))
-    .replace(/\\text\{([^}]*)\}/g, "$1");
-}
 
 export default function DocumentSearch() {
   const { currentWell } = useWell();
@@ -28,13 +89,21 @@ export default function DocumentSearch() {
     try {
       const wellIds = currentWell ? [currentWell.wellId] : [];
       const res = await askHistoricalQuestion(question, wellIds);
-      setHistory((h) => [{ question, answer: cleanMathNotation(res.answer) }, ...h]);
+      setHistory((h) => [{ question, answer: res.answer }, ...h]);
       setQuestion("");
     } catch (err) {
       setError("Could not fetch historical information. Try again.");
     } finally {
       setAsking(false);
     }
+  }
+
+  // Splits the AI answer into paragraphs for cleaner readability
+  function renderAnswerParagraphs(answer) {
+    return answer
+      .split(/\n{1,}/)
+      .filter((p) => p.trim().length > 0)
+      .map((para, idx) => <p key={idx}>{para.trim()}</p>);
   }
 
   return (
@@ -59,7 +128,7 @@ export default function DocumentSearch() {
             <span className="dot" />
             <span className="dot" />
             <span className="dot" />
-            Reading historical WCR/DDR reports, this can take up to 20 seconds
+            Reading historical WCR/DDR reports, this can take up to 90 seconds
           </div>
         )}
 
@@ -84,9 +153,7 @@ export default function DocumentSearch() {
             <div className="qa-answer">
               <div className="qa-icon">🤖</div>
               <div className="qa-answer-body">
-                <div className="qa-markdown">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{h.answer}</ReactMarkdown>
-                </div>
+                {renderAnswerParagraphs(h.answer)}
                 <span className="qa-tag">AI-generated from historical WCR/DDR records</span>
               </div>
             </div>

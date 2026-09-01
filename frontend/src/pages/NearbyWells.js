@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
-// import { useParams } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import { getNearbyWells, calculateDistanceKm, getWellByWellId } from "../api";
 import { useWell } from "../context/WellContext";
 
 export default function NearbyWells() {
-  // const { wellId } = useParams();
-  // const navigate = useNavigate();
-  // const { currentWell, setNearbyWells } = useWell();
   const { currentWell } = useWell();
 
   const [radius, setRadius] = useState(10);
@@ -50,11 +45,6 @@ export default function NearbyWells() {
     setChecked((c) => ({ ...c, [id]: !c[id] }));
   }
 
-  // function handleContinue() {
-  //   const selected = wells.filter((w) => checked[w.wellId]);
-  //   setNearbyWells(selected);
-  //   navigate(`/well/${wellId}/dashboard`);
-  // }
 
   // NEW: open popup with full well details, instead of navigating to another page
   async function openWellInfo(w) {

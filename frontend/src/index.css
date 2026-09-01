@@ -40,7 +40,8 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 .login-box p { color: #94a3b8; margin-bottom: 24px; font-size: 13px; }
 .login-box input { background: #0f1729; color: #fff; border: 1px solid #334155; }
 /* ---------- Well Workspace redesign ---------- */
-.workspace-wrap { min-height: 100vh; background: linear-gradient(135deg, #0f1729, #1e3a5f); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.workspace-wrap { min-height: 100vh; background: linear-gradient(135deg, #0f1729, #1e3a5f); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0px; }
+
 .workspace-header { text-align: center; margin-bottom: 24px; color: #fff; }
 .workspace-header h1 { font-size: 32px; }
 .workspace-header p { color: #94a3b8; margin-top: 4px; }
@@ -56,14 +57,103 @@ button.secondary { background: #fff; border: 1px solid #d1d5db; padding: 10px 22
 
 /* ---------- Sidebar collapse ---------- */
 .sidebar { transition: width 0.2s ease; }
-.sidebar.collapsed { width: 60px; overflow: hidden; }
-.sidebar.collapsed h2, .sidebar.collapsed .engineer, .sidebar.collapsed a span { display: none; }
-.sidebar-toggle { background: none; border: none; color: #cbd5e1; cursor: pointer; padding: 10px 20px; font-size: 16px; text-align: left; width: 100%; }
+.sidebar.collapsed { width: 0; padding: 0; overflow: hidden; border: none; }
+.sidebar.collapsed h2,
+.sidebar.collapsed .engineer,
+.sidebar.collapsed a,
+.sidebar.collapsed button { display: none; }
+
+.sidebar-backdrop { display: none; }
+
+/* ---------- Floating toggle — visible on desktop always, styled differently on mobile below ---------- */
+.sidebar-toggle-float {
+  position: fixed;
+  top: 20px;
+  left: 232px;
+  width: 34px;
+  height: 34px;
+  background: #0f1729;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: left 0.2s ease;
+}
+.sidebar-toggle-float.closed { left: 12px; }
+/* .sidebar-toggle { background: none; border: none; color: #cbd5e1; cursor: pointer; padding: 10px 20px; font-size: 16px; text-align: left; width: 100%; } */
 
 /* ---------- Top navbar ---------- */
 .top-navbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
 .top-navbar .well-meta { font-size: 13px; color: #475569; display: flex; gap: 20px; }
 .top-navbar .well-meta strong { color: #1a1a2e; }
+
+/* Sidebar header: NWIS + arrow */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 20px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  padding: 0;
+}
+
+/* Arrow beside NWIS */
+.sidebar-arrow {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+}
+
+.sidebar-arrow:hover {
+  opacity: 0.7;
+}
+
+/* Closed sidebar */
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Arrow visible when sidebar is closed */
+.sidebar-arrow-closed {
+  position: fixed;
+  left: 4px;
+  top: 3px;
+  z-index: 1001;
+
+  width: auto;
+  height: auto;
+
+  border: none;
+  background: transparent;
+  color: #000;
+
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.sidebar-arrow-closed:hover {
+  opacity: 0.6;
+}
 
 /* ====================================================================
 RESPONSIVE — added only, nothing above this line is changed
@@ -82,34 +172,80 @@ RESPONSIVE — added only, nothing above this line is changed
 
 /* Phones */
 @media (max-width: 600px) {
-  .sidebar { width: 140px; padding: 14px 0; }
-  .sidebar h2 { font-size: 16px; padding: 0 12px 12px; }
-  .sidebar .engineer { font-size: 11px; padding: 0 12px 12px; }
-  .sidebar a { padding: 8px 12px; font-size: 12px; }
-  .sidebar-toggle { padding: 8px 12px; font-size: 13px; }
+  .sidebar-toggle-float {
+    top: 14px;
+    left: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 20px;
+  }
+  .sidebar-toggle-float.open {
+    left: 174px; /* sits just past the open drawer's edge */
+  }
 
-  .main-content { padding: 14px; }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1040;
+  }
 
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 220px;
+    padding: 60px 0 14px;
+    z-index: 1050;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+  }
 
-  .page-title { font-size: 18px; }
-  .page-subtitle { font-size: 12px; }
+  .sidebar.collapsed {
+    width: 220px;
+    padding: 60px 0 14px;
+    transform: translateX(-100%);
+  }
 
-  .card { padding: 14px; }
-  .risk-pct { font-size: 24px; }
+  .main-content { width: 100%; margin-left: 0; }
+  .top-navbar { padding-left: 60px; }
 
-  .top-navbar { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 14px; }
-  .top-navbar .well-meta { flex-wrap: wrap; gap: 8px; font-size: 11px; }
-
-  .login-box { width: 85%; max-width: 320px; padding: 24px; }
-  .workspace-wrap { padding: 12px; }
-  .workspace-header h1 { font-size: 24px; }
-  .workspace-card { width: 100%; }
-  .tab-btn { font-size: 12px; padding: 10px; }
-
-  .modal-box { width: 88%; padding: 16px; }
-
-  .well-list-item { padding: 10px 12px; }
-
-  .btn-row button { padding: 8px 14px; font-size: 13px; }
+  .workspace-wrap { padding: 0; }
 }
+
+/* ---------- Historical Document Search ---------- */
+.search-input-row { display: flex; gap: 10px; }
+.search-input-row input { margin-top: 0; }
+
+.qa-thread { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
+
+.qa-item { animation: fadeIn 0.25s ease; }
+
+.qa-question { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.qa-question .qa-icon { background: #2563eb; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.qa-question .qa-text { background: #eff6ff; border: 1px solid #dbeafe; padding: 10px 14px; border-radius: 10px 10px 10px 2px; font-size: 14px; font-weight: 600; color: #1e3a5f; }
+
+.qa-answer { display: flex; align-items: flex-start; gap: 10px; }
+.qa-answer .qa-icon { background: #16213e; color: #fbbf24; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.qa-answer-body { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px 10px 10px 2px; padding: 16px 18px; flex: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.qa-answer-body p { font-size: 14px; line-height: 1.7; color: #1a1a2e; margin-bottom: 10px; white-space: pre-line; }
+.qa-answer-body p:last-child { margin-bottom: 0; }
+
+.qa-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 3px 9px; border-radius: 20px; margin-top: 12px; letter-spacing: 0.3px; text-transform: uppercase; }
+.qa-tag::before { content: "●"; color: #16a34a; font-size: 8px; }
+
+.qa-empty { text-align: center; padding: 40px 20px; color: #94a3b8; }
+.qa-empty .qa-empty-icon { font-size: 32px; margin-bottom: 10px; }
+.qa-empty p { font-size: 14px; }
+.qa-empty .qa-hint { font-size: 12px; color: #cbd5e1; margin-top: 6px; }
+
+.qa-loading-note { font-size: 12px; color: #94a3b8; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+.qa-loading-note .dot { width: 6px; height: 6px; background: #2563eb; border-radius: 50%; animation: pulse 1s infinite ease-in-out; }
+.qa-loading-note .dot:nth-child(2) { animation-delay: 0.2s; }
+.qa-loading-note .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }

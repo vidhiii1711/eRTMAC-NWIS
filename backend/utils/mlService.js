@@ -4,7 +4,6 @@ const ML_PREDICT_URL = process.env.ML_PREDICT_URL || 'http://localhost:8000/pred
 const ML_EXPLAIN_URL = process.env.ML_EXPLAIN_URL || 'http://localhost:8000/explain';
 const ML_HISTORICAL_URL = process.env.ML_HISTORICAL_URL || 'http://localhost:8000/historical-intelligence';
 
-
 // Removes MongoDB's internal fields + label fields before sending to her API
 // (her API only expects the 20 raw fields she defined in DrillingData class)
 const cleanPayload = (record) => {
@@ -53,30 +52,52 @@ const getRiskExplanation = async (record) => {
 //   return response.data; // { question, well_ids, answer }
 // };
 
+// const getRiskPrediction = async (record) => {
+//   const payload = cleanPayload(record);
+//   try {
+//     const response = await axios.post(ML_PREDICT_URL, payload);
+//     return response.data;
+//   } catch (error) {
+//     console.error('ML_PREDICT_URL value:', ML_PREDICT_URL);
+//     console.error('Predict API call failed:', error.message);
+//     throw error;
+//   }
+// };
+
 const getRiskPrediction = async (record) => {
   const payload = cleanPayload(record);
   try {
-    const response = await axios.post(ML_PREDICT_URL, payload);
+    const response = await mlAxios.post(ML_PREDICT_URL, payload);
     return response.data;
   } catch (error) {
-    console.error('ML_PREDICT_URL value:', ML_PREDICT_URL);
     console.error('Predict API call failed:', error.message);
-    throw error;
+    throw new Error('Risk prediction service is currently unavailable. Please try again.');
   }
 };
 
+// const getHistoricalAnswer = async (question, wellIds) => {
+//   try {
+//     const response = await axios.post(ML_HISTORICAL_URL, {
+//       question,
+//       well_ids: wellIds,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('ML_HISTORICAL_URL value:', ML_HISTORICAL_URL);
+//     console.error('Historical API call failed:', error.message);
+//     throw error; // still throw so the controller's catch block returns 500 properly
+//   }
+// };
+
 const getHistoricalAnswer = async (question, wellIds) => {
   try {
-    const response = await axios.post(ML_HISTORICAL_URL, {
-      question,
-      well_ids: wellIds,
-    });
+    const response = await mlAxios.post(ML_HISTORICAL_URL, { question, well_ids: wellIds });
     return response.data;
   } catch (error) {
-    console.error('ML_HISTORICAL_URL value:', ML_HISTORICAL_URL);
     console.error('Historical API call failed:', error.message);
-    throw error; // still throw so the controller's catch block returns 500 properly
+    throw new Error('Historical search is currently unavailable. Please try again.');
   }
 };
+
 
 module.exports = { getRiskPrediction, getRiskExplanation, getHistoricalAnswer};
